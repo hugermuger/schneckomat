@@ -6,6 +6,8 @@
 #include <EEPROM.h>
 #include <TriacDimmer.h>
 
+//final
+
 DHT20 DHT;
 RTC_DS3231 rtc;
 U8G2_SSD1306_128X64_NONAME_2_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
@@ -57,7 +59,7 @@ bool light_on = 0;
 
 float oldTime = 0;
 unsigned int passedTimeSnail = 61;
-unsigned int passedTimeLight = 0;
+unsigned int passedTimeLight = 61;
 float passedTimeNoButtonPress = 0;
 unsigned int passedTimeLightOn = 0;
 float deltaTime = 0;
@@ -359,9 +361,9 @@ void HeatandLight(DateTime& dt){
         foutVal = 0.0;
       } else {
         if (dt.hour() <= (evening - morning)) {
-          foutVal = 0.24 + ((100 / ((endMin-startMin)/2) * (currentMinutes-startMin)) * 0.0026);
+          foutVal = 0.24 + ((100.0 / ((endMin-startMin)/2.0) * (currentMinutes-startMin)) * 0.0026);
         } else {
-          foutVal = 0.24 + ((100 - (100 / ((endMin-startMin)/2) * (currentMinutes-(endMin-startMin)))) * 0.0026);
+          foutVal = 0.24 + ((100.0 - (100 / ((endMin-startMin)/2.0) * (currentMinutes-(endMin-startMin)))) * 0.0026);
         }
       }
     }
@@ -462,10 +464,16 @@ void InputControl () {
       max_temp_day += temp_change;
     } else if (current_screen == 4){
       min_temp_day += temp_change;
+      if (max_temp_day <= min_temp_day) {
+        min_temp_day = max_temp_day - temp_change;
+      }
     } else if (current_screen == 5){
       max_temp_night += temp_change;
     } else if (current_screen == 6){
       min_temp_night += temp_change;
+      if (max_temp_night <= min_temp_night) {
+        min_temp_night = max_temp_night - temp_change;
+      }
     }
   }
 
@@ -490,10 +498,16 @@ void InputControl () {
       light_reload = 1;
     } else if (current_screen == 3){
       max_temp_day -= temp_change;
+      if (max_temp_day <= min_temp_day) {
+        max_temp_day = min_temp_day + temp_change;
+      }
     } else if (current_screen == 4){
       min_temp_day -= temp_change;
     } else if (current_screen == 5){
       max_temp_night -= temp_change;
+      if (max_temp_night <= min_temp_night) {
+        max_temp_night = min_temp_night + temp_change;
+      }
     } else if (current_screen == 6){
       min_temp_night -= temp_change;
     }
