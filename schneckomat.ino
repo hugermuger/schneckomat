@@ -209,6 +209,7 @@ void setup() {
   DHT.begin();
   u8g2.begin();
   rtc.begin();
+  pinMode(HEAT, OUTPUT);
 
   if (EEPROM.read(add_init) == 'T'){
     EEPROM.get(add_max_temp_day, max_temp_day);
