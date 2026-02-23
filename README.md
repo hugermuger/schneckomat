@@ -1,6 +1,6 @@
 # Schneckomat: Automated Snail Habitat Controller
 
-The **Schneckomat** is an Arduino-based environmental control system designed to regulate temperature and lighting for snail terrariums. It features a dynamic day/night cycle, automated heating, and a custom OLED interface with a traveling snail animation.
+The **Schneckomat** is an Arduino-based environment controller designed to mimic natural cycles for terrariums. This project features a dynamic snail animation, sine-wave light dimming, and day/night temperature regulation.
 
 ---
 
